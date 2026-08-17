@@ -262,7 +262,7 @@ body {
 }
 
 .Title {
-  font-size: clamp(5rem, 42vw, 620px);
+  font-size: clamp(4rem, 20vw, 620px);
   line-height: 0.9;
   margin: 0;
 }
