@@ -181,21 +181,43 @@ body {
   color: var(--fable-ink);
 }
 
-/* Full-page goo layer, behind content, pointer events forwarded from window */
+/* Off-screen holder for the SVG displacement filter */
+.goo-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Full-page goo layer: sits ABOVE the content and blends with difference, so
+   everything inside the goo (text, background) inverts to white-on-black. */
 .fluid-canvas {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: 40;
   pointer-events: none;
-  filter: contrast(20) invert(1);
+  filter: contrast(20);
+  mix-blend-mode: difference;
 }
 
-.fable > *:not(.fluid-canvas) {
+.fable > *:not(.fluid-canvas):not(.goo-defs) {
   position: relative;
   z-index: 2;
 }
+
+/* Zone goo (video stage + bottom socials): clipped to its section, noisy and
+   distorted, and dodges the pixels beneath so it takes on the video's own
+   colour and pattern. */
+.zone-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  filter: url(#goo-noise) contrast(6) saturate(1.4);
+  mix-blend-mode: color-dodge;
+}
+
 
 .topbar {
   display: flex;
