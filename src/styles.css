@@ -498,3 +498,111 @@ footer {
     box-shadow: 0 0 0 rgb(89 106 255 / 0);
   }
 }
+
+/* ------------------------------
+   Mobile
+------------------------------ */
+
+@media (max-width: 768px) {
+  .logo {
+    padding-left: 14px;
+    width: 30px;
+  }
+
+  .top-right {
+    gap: 16px;
+    padding-right: 14px;
+  }
+
+  .TRT {
+    font-size: 15px;
+  }
+
+  .Content {
+    height: auto;
+    min-height: 100svh;
+    padding: 0 12px;
+    text-align: center;
+  }
+
+  .Title {
+    font-size: clamp(3.5rem, 30vw, 12rem);
+  }
+
+  .Description {
+    font-size: 16px;
+    margin-top: -6px;
+  }
+
+  .video-stage {
+    height: 70svh;
+    min-height: 420px;
+    margin-bottom: 32px;
+  }
+
+  .video-window {
+    width: 86vw;
+    height: 46svh;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 20px;
+  }
+
+  .video-backdrop {
+    transform: scale(1.4);
+    filter: blur(10px) brightness(0.7);
+  }
+
+  .AboutTitle,
+  .WorkTitle {
+    font-size: clamp(2.2rem, 13vw, 4rem);
+    padding-left: 14px;
+  }
+
+  .AboutDescription {
+    font-size: clamp(1.8rem, 10vw, 3rem);
+    padding-left: 14px;
+    line-height: 1.35;
+  }
+
+  .AboutSpan {
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+
+  .WorkDn,
+  .WorkDb {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+    padding-left: 14px;
+  }
+
+  .Footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+
+  .social-link,
+  .discord-link {
+    min-width: 0;
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .FooterText {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .discord {
+    text-align: center;
+  }
+}
+
+/* Cheaper simulation blending on small / touch devices */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .zone-canvas {
+    filter: url(#goo-noise) contrast(4);
+  }
+}
