@@ -142,3 +142,320 @@
     color: var(--color-foreground);
   }
 }
+
+/* ------------------------------
+   Project Fable
+------------------------------ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+::selection {
+  background-color: var(--fable-ink);
+  color: var(--fable-paper);
+}
+::-moz-selection {
+  background-color: var(--fable-ink);
+  color: var(--fable-paper);
+}
+
+.fable {
+  position: relative;
+  background: var(--fable-paper);
+  color: var(--fable-ink);
+}
+
+/* Full-page goo layer, behind content, pointer events forwarded from window */
+.fluid-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  filter: contrast(20) invert(1);
+}
+
+.fable > *:not(.fluid-canvas) {
+  position: relative;
+  z-index: 2;
+}
+
+.topbar {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.top-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding-left: 22px;
+  padding-top: 10px;
+}
+.logo:hover {
+  transform: scale(1.1);
+}
+.logo:active {
+  transform: scale(0.9);
+  opacity: 0.8;
+}
+.logo::selection {
+  background-color: transparent;
+  color: var(--fable-ink);
+}
+
+.top-right {
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+  padding-right: 35px;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.TRT {
+  font-size: 20px;
+  color: var(--fable-ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.TRT:hover {
+  opacity: 0.7;
+}
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+  height: 950px;
+  max-height: 100vh;
+}
+
+.Title {
+  font-size: clamp(5rem, 42vw, 620px);
+  line-height: 0.9;
+  margin: 0;
+}
+.Title::selection {
+  background-color: transparent;
+  color: var(--fable-ink);
+}
+
+.Description {
+  font-size: 20px;
+  color: var(--fable-ink);
+  margin-top: -20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.Description:hover {
+  transform: scale(1.1);
+}
+.Description:active {
+  transform: scale(1.3);
+  opacity: 0.8;
+}
+.Description::selection {
+  background-color: var(--fable-blue);
+  color: var(--fable-paper);
+}
+
+.video-stage {
+  position: relative;
+  width: 100vw;
+  height: 120vh;
+  min-height: 980px;
+  margin: 0 0 60px 0;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  overflow: hidden;
+  background: var(--fable-ink);
+}
+
+.Video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.Video::selection {
+  background-color: transparent;
+}
+
+.video-backdrop {
+  filter: blur(14px) brightness(0.7) saturate(1.1);
+  transform: scale(1.8);
+}
+
+.video-window {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(50vw, 940px);
+  height: min(36vw, 640px);
+  min-width: 320px;
+  min-height: 240px;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border-radius: 32px;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.38);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  background: var(--fable-ink);
+}
+
+.video-foreground {
+  width: 210%;
+  height: 210%;
+  transform: scale(1.1) translate3d(0, 0, 0);
+  transition: transform 0.12s linear;
+}
+
+.AboutTitle,
+.WorkTitle {
+  font-size: clamp(3rem, 11vw, 150px);
+  margin: 20px 0 0;
+  padding-left: 20px;
+  color: var(--fable-blue);
+}
+.AboutTitle::selection {
+  background-color: var(--fable-blue);
+  color: var(--fable-paper);
+}
+
+.AboutDescription {
+  font-size: clamp(2.5rem, 9vw, 120px);
+  margin: 20px 0 0;
+  padding-left: 20px;
+  color: var(--fable-deep);
+}
+.AboutDescription::selection {
+  background-color: var(--fable-green);
+  color: var(--fable-paper);
+}
+
+.AboutSpan {
+  display: inline;
+  background-color: var(--fable-green);
+  color: var(--fable-paper);
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+.AboutSpan::selection {
+  background-color: transparent;
+  color: var(--fable-ink);
+}
+
+.WorkDn,
+.WorkDb {
+  font-size: clamp(2rem, 7.5vw, 100px);
+  margin: 0;
+  padding-left: 20px;
+}
+.WorkDn {
+  color: var(--fable-blue);
+}
+.WorkDb {
+  color: var(--fable-pink);
+}
+
+.socials-section {
+  padding-bottom: 60px;
+}
+
+footer {
+  background-color: var(--fable-footer);
+  color: var(--fable-paper);
+  text-align: center;
+  border-radius: 6px;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.Footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  min-width: 120px;
+}
+
+.discord-link {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.FooterText {
+  margin: 20px auto;
+  text-align: center;
+  flex: 1;
+}
+
+.discord {
+  color: var(--fable-paper);
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.SocialIcon {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+.SocialIcon:hover {
+  transform: scale(1.15);
+  opacity: 0.8;
+}
+.SocialIcon:active {
+  transform: scale(0.9);
+}
+
+.flash-highlight {
+  animation: flashSection 0.2s ease;
+}
+
+@keyframes flashSection {
+  0% {
+    background-color: transparent;
+    box-shadow: 0 0 0 rgb(89 106 255 / 0);
+  }
+  20% {
+    background-color: rgb(89 106 255 / 0.18);
+    box-shadow: 0 0 0 8px rgb(89 106 255 / 0.12);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 rgb(89 106 255 / 0);
+  }
+}
