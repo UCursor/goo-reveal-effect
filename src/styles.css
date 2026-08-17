@@ -63,6 +63,15 @@
 
 :root {
   --radius: 0.625rem;
+  /* Project Fable palette */
+  --fable-paper: #ffffff;
+  --fable-ink: rgb(10, 10, 10);
+  --fable-deep: rgb(24, 15, 1);
+  --fable-blue: rgb(89, 106, 255);
+  --fable-green: rgb(28, 253, 95);
+  --fable-pink: rgb(255, 89, 144);
+  --fable-footer: rgb(15, 15, 15);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
