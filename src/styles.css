@@ -412,7 +412,15 @@ body {
 
 .socials-section {
   padding-bottom: 60px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
+
+.video-stage {
+  isolation: isolate;
+}
+
 
 footer {
   background-color: var(--fable-footer);
