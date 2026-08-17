@@ -1,6 +1,12 @@
 import { useEffect, useRef } from "react";
 
-export function FluidCanvas() {
+type Props = {
+  className?: string;
+  /** Extra simulation options merged over the defaults. */
+  options?: Record<string, unknown>;
+};
+
+export function FluidCanvas({ className = "fluid-canvas", options }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -26,8 +32,8 @@ export function FluidCanvas() {
         SPLAT_RADIUS: 0.45,
         SPLAT_FORCE: 600,
         COLORFUL: false,
-        // White dye on black, inverted in CSS so it reads as thick black goo
-        // over the light page.
+        // White dye on black: the layer is composited with mix-blend-mode so
+        // the white areas act as the reveal mask.
         SPLAT_COLOR: { r: 1, g: 1, b: 1 },
         BACK_COLOR: { r: 0, g: 0, b: 0 },
         TRANSPARENT: false,
@@ -36,29 +42,33 @@ export function FluidCanvas() {
         SUNRAYS: false,
         IMMEDIATE: false,
         AUTO: false,
+        ...options,
       });
     });
 
-    // The canvas sits behind the page content and ignores pointer events, so
-    // forward window-level pointer moves to it to keep the goo cursor-driven
-    // everywhere on the page.
-    const forward = (e: MouseEvent) => {
+    // The canvas ignores pointer events (content underneath stays clickable),
+    // so forward window-level pointer / touch moves to it.
+    const splat = (x: number, y: number) => {
       canvas.dispatchEvent(
-        new MouseEvent("mousemove", {
-          clientX: e.clientX,
-          clientY: e.clientY,
-          bubbles: false,
-        }),
+        new MouseEvent("mousemove", { clientX: x, clientY: y, bubbles: false }),
       );
     };
-    window.addEventListener("mousemove", forward, { passive: true });
+    const onMouse = (e: MouseEvent) => splat(e.clientX, e.clientY);
+    const onTouch = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (t) splat(t.clientX, t.clientY);
+    };
+    window.addEventListener("mousemove", onMouse, { passive: true });
+    window.addEventListener("touchmove", onTouch, { passive: true });
+    window.addEventListener("touchstart", onTouch, { passive: true });
 
     return () => {
       cancelled = true;
-      window.removeEventListener("mousemove", forward);
+      window.removeEventListener("mousemove", onMouse);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("touchstart", onTouch);
     };
-  }, []);
+  }, [options]);
 
-  return <canvas ref={ref} className="fluid-canvas" aria-hidden="true" />;
+  return <canvas ref={ref} className={className} aria-hidden="true" />;
 }
-

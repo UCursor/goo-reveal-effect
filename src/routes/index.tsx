@@ -24,6 +24,25 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+// Page-wide goo: soft, slow, used as an inversion mask over the content.
+const GLOBAL_OPTIONS = {
+  DENSITY_DISSIPATION: 0.97,
+  VELOCITY_DISSIPATION: 0.86,
+  SPLAT_RADIUS: 0.4,
+};
+
+// Zone goo (video stage + bottom): faster, wilder, heavily curled so the
+// noisy displacement filter has something turbulent to chew on.
+const ZONE_OPTIONS = {
+  SIM_RESOLUTION: 256,
+  DYE_RESOLUTION: 1024,
+  DENSITY_DISSIPATION: 0.92,
+  VELOCITY_DISSIPATION: 0.7,
+  CURL: 40,
+  SPLAT_RADIUS: 0.3,
+  SPLAT_FORCE: 9000,
+};
+
 function Index() {
   const stageRef = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLDivElement>(null);
@@ -128,8 +147,35 @@ function Index() {
 
   return (
     <div className="fable">
+      {/* Noisy displacement used by the goo inside the video / bottom zones */}
+      <svg className="goo-defs" aria-hidden="true">
+        <filter id="goo-noise">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.02 0.05"
+            numOctaves={3}
+            seed={7}
+            result="noise"
+          >
+            <animate
+              attributeName="baseFrequency"
+              dur="8s"
+              values="0.02 0.05;0.05 0.02;0.02 0.05"
+              repeatCount="indefinite"
+            />
+          </feTurbulence>
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="60"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
+
       <ClientOnly>
-        <FluidCanvas />
+        <FluidCanvas className="fluid-canvas" options={GLOBAL_OPTIONS} />
       </ClientOnly>
 
       <div className="topbar">
@@ -169,7 +215,7 @@ function Index() {
       <div className="video-stage" ref={stageRef} aria-label="Featured video section">
         <video
           className="Video video-backdrop"
-          src="/Videos/Silk.webm"
+          src="/Videos/silk.webm"
           autoPlay
           muted
           loop
@@ -178,13 +224,16 @@ function Index() {
         <div className="video-window" ref={windowRef}>
           <video
             className="Video video-foreground"
-            src="/Videos/Silk.webm"
+            src="/Videos/silk.webm"
             autoPlay
             muted
             loop
             playsInline
           />
         </div>
+        <ClientOnly>
+          <FluidCanvas className="fluid-canvas zone-canvas" options={ZONE_OPTIONS} />
+        </ClientOnly>
       </div>
 
       <section className="About" id="about">
@@ -199,6 +248,9 @@ function Index() {
         <p className="WorkTitle">Want to work with us?</p>
         <p className="WorkDn">Reach Out Using Our Socials</p>
         <p className="WorkDb">Discord/Github</p>
+        <ClientOnly>
+          <FluidCanvas className="fluid-canvas zone-canvas" options={ZONE_OPTIONS} />
+        </ClientOnly>
       </section>
 
       <footer id="footer">
@@ -229,3 +281,4 @@ function Index() {
     </div>
   );
 }
+
