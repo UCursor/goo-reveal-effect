@@ -39,10 +39,26 @@ export function FluidCanvas() {
       });
     });
 
+    // The canvas sits behind the page content and ignores pointer events, so
+    // forward window-level pointer moves to it to keep the goo cursor-driven
+    // everywhere on the page.
+    const forward = (e: MouseEvent) => {
+      canvas.dispatchEvent(
+        new MouseEvent("mousemove", {
+          clientX: e.clientX,
+          clientY: e.clientY,
+          bubbles: false,
+        }),
+      );
+    };
+    window.addEventListener("mousemove", forward, { passive: true });
+
     return () => {
       cancelled = true;
+      window.removeEventListener("mousemove", forward);
     };
   }, []);
 
   return <canvas ref={ref} className="fluid-canvas" aria-hidden="true" />;
 }
+
