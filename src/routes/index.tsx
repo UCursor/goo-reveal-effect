@@ -24,6 +24,25 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+// Page-wide goo: soft, slow, used as an inversion mask over the content.
+const GLOBAL_OPTIONS = {
+  DENSITY_DISSIPATION: 0.97,
+  VELOCITY_DISSIPATION: 0.86,
+  SPLAT_RADIUS: 0.4,
+};
+
+// Zone goo (video stage + bottom): faster, wilder, heavily curled so the
+// noisy displacement filter has something turbulent to chew on.
+const ZONE_OPTIONS = {
+  SIM_RESOLUTION: 256,
+  DYE_RESOLUTION: 1024,
+  DENSITY_DISSIPATION: 0.92,
+  VELOCITY_DISSIPATION: 0.7,
+  CURL: 40,
+  SPLAT_RADIUS: 0.3,
+  SPLAT_FORCE: 9000,
+};
+
 function Index() {
   const stageRef = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLDivElement>(null);
